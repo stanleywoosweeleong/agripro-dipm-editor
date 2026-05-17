@@ -947,6 +947,9 @@ export default function EnApp() {
   const [editingPest, setEditingPest] = useState(null);
   // Bumps to force re-render after a save so the "has-data" badges refresh
   const [savedTick, setSavedTick] = useState(0);
+  // Collapse reference guides by default in the editor build —
+  // agronomists don't need to scroll past them every time.
+  const [showAllGuides, setShowAllGuides] = useState(false);
   // Enrich pests with MOA & application strings for THIS app's language.
   // Runs every render so switching languages re-applies the right values
   // (the data is shared across both apps; whichever mounts last wins, so
@@ -1520,7 +1523,23 @@ export default function EnApp() {
 
             </div>
 
-            {(filterCat === 'All' || filterCat === 'Insects' || filterCat === 'Mites/Nematodes') && (filterPart === 'All' || filterPart === 'Leaves') && (
+            <div className="max-w-4xl mx-auto mb-6">
+              <button
+                onClick={() => setShowAllGuides(!showAllGuides)}
+                className="w-full bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 hover:border-slate-300 text-slate-700 p-3 rounded-xl flex justify-between items-center transition-all text-sm font-bold"
+              >
+                <div className="flex items-center gap-3 text-left">
+                  <span className="text-xl">📘</span>
+                  <div>
+                    <span className="block">{showAllGuides ? 'Hide Reference Guides' : 'Show Reference Guides (7)'}</span>
+                    <span className="block text-xs text-slate-500 font-normal mt-0.5">Field diagnostics, traps, tank-mix, biological warfare, microbes, DT₅₀ & MRL</span>
+                  </div>
+                </div>
+                <span className="text-slate-400 text-lg">{showAllGuides ? '▴' : '▾'}</span>
+              </button>
+            </div>
+
+            {showAllGuides && (filterCat === 'All' || filterCat === 'Insects' || filterCat === 'Mites/Nematodes') && (filterPart === 'All' || filterPart === 'Leaves') && (
               <div className="max-w-4xl mx-auto mb-8 flex flex-col gap-4">
                 
                 <div>

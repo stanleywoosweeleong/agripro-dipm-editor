@@ -18,8 +18,8 @@ export default defineConfig({
         short_name: 'AgriPro DIPM',
         description:
           '榴莲园综合虫害管理 — 病虫害数据库、风险模拟器、混配方案。Bilingual Durian IPM.',
-        theme_color: '#059669',
-        background_color: '#f0fdf4',
+        theme_color: '#581c87',
+        background_color: '#faf5ff',
         display: 'standalone',
         orientation: 'portrait',
         scope: base,
