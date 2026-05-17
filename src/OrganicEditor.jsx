@@ -63,6 +63,20 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
     });
   };
 
+  // Bilingual variant: updates a `{ en, zh }` paired field on a product.
+  // `lang` is 'en' or 'zh', `value` is the new string for that language.
+  const updateProductBilingual = (phaseIndex, productIndex, field, lang, value) => {
+    updatePhase(phaseIndex, ph => {
+      const products = [...ph.products];
+      const current = products[productIndex][field] || { en: '', zh: '' };
+      products[productIndex] = {
+        ...products[productIndex],
+        [field]: { ...current, [lang]: value },
+      };
+      return { ...ph, products };
+    });
+  };
+
   const toggleAdjuvant = (phaseIndex) => {
     updatePhase(phaseIndex, ph => ({
       ...ph,
@@ -75,6 +89,17 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
       ...ph,
       adjuvant: { ...ph.adjuvant, [field]: value },
     }));
+  };
+
+  // Bilingual variant for adjuvant fields
+  const updateAdjuvantBilingual = (phaseIndex, field, lang, value) => {
+    updatePhase(phaseIndex, ph => {
+      const current = ph.adjuvant[field] || { en: '', zh: '' };
+      return {
+        ...ph,
+        adjuvant: { ...ph.adjuvant, [field]: { ...current, [lang]: value } },
+      };
+    });
   };
 
   const handleSave = () => {
@@ -129,18 +154,17 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* General notes */}
-          <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">
-              General Agronomist Notes <span className="text-slate-400 font-normal">(optional)</span>
-            </label>
-            <textarea
-              value={protocol.notes}
-              onChange={(e) => setProtocol(prev => ({ ...prev, notes: e.target.value }))}
-              placeholder="Any overall guidance — e.g. context, target market certification level, recommended rotation pattern."
-              rows={2}
-              className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-colors text-sm"
-            />
-          </div>
+          <BilingualField
+            label="General Agronomist Notes (optional)"
+            value={protocol.notes}
+            onChange={(lang, v) => setProtocol(prev => ({
+              ...prev,
+              notes: { ...(prev.notes || { en: '', zh: '' }), [lang]: v }
+            }))}
+            placeholderEn="Overall guidance — e.g. target market, rotation pattern, context."
+            placeholderZh="整体指南，例如：目标市场、轮作模式、应用背景。"
+            textarea
+          />
 
           {/* Phases */}
           {PHASE_META.map((meta, phaseIndex) => {
@@ -180,11 +204,12 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
                       <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                         Product {productIndex + 1}
                       </div>
-                      <Field
+                      <BilingualField
                         label="Product Name / SKU"
                         value={product.name}
-                        onChange={(v) => updateProduct(phaseIndex, productIndex, 'name', v)}
-                        placeholder="e.g. NeemPro 10EC"
+                        onChange={(lang, v) => updateProductBilingual(phaseIndex, productIndex, 'name', lang, v)}
+                        placeholderEn="e.g. NeemPro 10EC"
+                        placeholderZh="例如：印楝油 10EC"
                         required
                       />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -201,11 +226,12 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
                           placeholder="e.g. 0 or 3"
                         />
                       </div>
-                      <Field
+                      <BilingualField
                         label="Application Notes"
                         value={product.applicationNotes}
-                        onChange={(v) => updateProduct(phaseIndex, productIndex, 'applicationNotes', v)}
-                        placeholder="When and how to apply — e.g. spray underside of leaves at dusk."
+                        onChange={(lang, v) => updateProductBilingual(phaseIndex, productIndex, 'applicationNotes', lang, v)}
+                        placeholderEn="When and how to apply — e.g. spray underside of leaves at dusk."
+                        placeholderZh="施用时间与方法 — 例如：黄昏时喷洒叶片背面。"
                         textarea
                       />
                       <Field
@@ -246,26 +272,27 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
                         <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
                         Adjuvant / Spreader
                       </div>
-                      <Field
+                      <BilingualField
                         label="Adjuvant Name"
                         value={phase.adjuvant.name}
-                        onChange={(v) => updateAdjuvant(phaseIndex, 'name', v)}
-                        placeholder="e.g. OrgaSpread"
+                        onChange={(lang, v) => updateAdjuvantBilingual(phaseIndex, 'name', lang, v)}
+                        placeholderEn="e.g. OrgaSpread"
+                        placeholderZh="例如：有机展着剂"
                       />
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <Field
-                          label="Dosage"
-                          value={phase.adjuvant.dosage}
-                          onChange={(v) => updateAdjuvant(phaseIndex, 'dosage', v)}
-                          placeholder="e.g. 1 ml / L"
-                        />
-                        <Field
-                          label="Application Notes"
-                          value={phase.adjuvant.applicationNotes}
-                          onChange={(v) => updateAdjuvant(phaseIndex, 'applicationNotes', v)}
-                          placeholder="e.g. Add to tank before products"
-                        />
-                      </div>
+                      <Field
+                        label="Dosage"
+                        value={phase.adjuvant.dosage}
+                        onChange={(v) => updateAdjuvant(phaseIndex, 'dosage', v)}
+                        placeholder="e.g. 1 ml / L"
+                      />
+                      <BilingualField
+                        label="Application Notes"
+                        value={phase.adjuvant.applicationNotes}
+                        onChange={(lang, v) => updateAdjuvantBilingual(phaseIndex, 'applicationNotes', lang, v)}
+                        placeholderEn="e.g. Add to tank before products"
+                        placeholderZh="例如：在加入主药剂前先加入水箱"
+                        textarea
+                      />
                     </div>
                   ) : (
                     <button
@@ -349,7 +376,7 @@ export function OrganicEditor({ pest, onClose, onSaved }) {
 }
 
 // ============================================================
-// Small reusable text field component
+// Small reusable text field component (single-value)
 // ============================================================
 function Field({ label, value, onChange, placeholder, textarea, required }) {
   return (
@@ -374,6 +401,64 @@ function Field({ label, value, onChange, placeholder, textarea, required }) {
           className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-colors text-sm"
         />
       )}
+    </div>
+  );
+}
+
+// ============================================================
+// Bilingual paired field — renders EN above ZH, both always visible
+// `value` is a { en, zh } object; `onChange(field, text)` is called with 'en' or 'zh'.
+// ============================================================
+function BilingualField({ label, value, onChange, placeholderEn, placeholderZh, textarea, required }) {
+  const safeValue = value && typeof value === 'object' ? value : { en: '', zh: '' };
+  const inputCls = "w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-colors text-sm";
+  return (
+    <div className="space-y-1.5">
+      <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <div className="space-y-1.5">
+        <div className="flex items-start gap-2">
+          <span className="flex-shrink-0 mt-2 text-[10px] font-black text-slate-400 uppercase tracking-wider w-6">EN</span>
+          {textarea ? (
+            <textarea
+              value={safeValue.en || ''}
+              onChange={(e) => onChange('en', e.target.value)}
+              placeholder={placeholderEn}
+              rows={2}
+              className={inputCls}
+            />
+          ) : (
+            <input
+              type="text"
+              value={safeValue.en || ''}
+              onChange={(e) => onChange('en', e.target.value)}
+              placeholder={placeholderEn}
+              className={inputCls}
+            />
+          )}
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="flex-shrink-0 mt-2 text-[10px] font-black text-slate-400 uppercase tracking-wider w-6">中</span>
+          {textarea ? (
+            <textarea
+              value={safeValue.zh || ''}
+              onChange={(e) => onChange('zh', e.target.value)}
+              placeholder={placeholderZh}
+              rows={2}
+              className={inputCls}
+            />
+          ) : (
+            <input
+              type="text"
+              value={safeValue.zh || ''}
+              onChange={(e) => onChange('zh', e.target.value)}
+              placeholder={placeholderZh}
+              className={inputCls}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

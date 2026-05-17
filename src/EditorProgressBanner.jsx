@@ -124,10 +124,22 @@ function buildExportRows(protocols) {
   const headers = [
     'pest_id', 'pest_common_en', 'pest_common_zh', 'pest_scientific',
     'phase', 'kind', 'seq',
-    'name', 'dosage', 'application_notes', 'phi', 'certification',
-    'pest_notes', 'updated_at',
+    'name_en', 'name_zh',
+    'dosage',
+    'application_notes_en', 'application_notes_zh',
+    'phi', 'certification',
+    'pest_notes_en', 'pest_notes_zh',
+    'updated_at',
   ];
   const rows = [headers];
+
+  // Helper to safely extract { en, zh } from a field that might be a string (v1)
+  // or an object (v2). Defensive — handles whatever loadProtocol returns.
+  const lang = (field, key) => {
+    if (field == null) return '';
+    if (typeof field === 'string') return key === 'en' ? field : '';  // v1: only EN
+    return field[key] || '';
+  };
 
   for (const p of protocols) {
     const pest = ALL_PESTS.find(x => x.id === p.pestId);
@@ -136,6 +148,8 @@ function buildExportRows(protocols) {
     const commonZh = pest.common?.zh || '';
     const scientific = pest.scientific || '';
     const updatedAt = p.updatedAt ? new Date(p.updatedAt).toISOString() : '';
+    const pestNotesEn = lang(p.notes, 'en');
+    const pestNotesZh = lang(p.notes, 'zh');
 
     let emittedAnyRow = false;
 
@@ -147,33 +161,44 @@ function buildExportRows(protocols) {
         rows.push([
           p.pestId, commonEn, commonZh, scientific,
           phaseNum, 'product', prodIdx + 1,
-          prod.name || '', prod.dosage || '', prod.applicationNotes || '',
+          lang(prod.name, 'en'), lang(prod.name, 'zh'),
+          prod.dosage || '',
+          lang(prod.applicationNotes, 'en'), lang(prod.applicationNotes, 'zh'),
           prod.phi || '', prod.certification || '',
-          p.notes || '', updatedAt,
+          pestNotesEn, pestNotesZh,
+          updatedAt,
         ]);
         emittedAnyRow = true;
       });
 
-      if (phase.adjuvant && phase.adjuvant.name) {
+      const adjName = phase.adjuvant?.name;
+      const adjHasContent = adjName && (typeof adjName === 'string' ? adjName : (adjName.en || adjName.zh));
+      if (adjHasContent) {
         rows.push([
           p.pestId, commonEn, commonZh, scientific,
           phaseNum, 'adjuvant', 1,
-          phase.adjuvant.name, phase.adjuvant.dosage || '',
-          phase.adjuvant.applicationNotes || '',
+          lang(phase.adjuvant.name, 'en'), lang(phase.adjuvant.name, 'zh'),
+          phase.adjuvant.dosage || '',
+          lang(phase.adjuvant.applicationNotes, 'en'), lang(phase.adjuvant.applicationNotes, 'zh'),
           '', '',
-          p.notes || '', updatedAt,
+          pestNotesEn, pestNotesZh,
+          updatedAt,
         ]);
         emittedAnyRow = true;
       }
     }
 
     // If the protocol exists but has no products/adjuvants, still emit a stub row so notes are captured
-    if (!emittedAnyRow && (p.notes || '').trim()) {
+    if (!emittedAnyRow && (pestNotesEn.trim() || pestNotesZh.trim())) {
       rows.push([
         p.pestId, commonEn, commonZh, scientific,
         '', 'notes-only', '',
-        '', '', '', '', '',
-        p.notes, updatedAt,
+        '', '',
+        '',
+        '', '',
+        '', '',
+        pestNotesEn, pestNotesZh,
+        updatedAt,
       ]);
     }
   }

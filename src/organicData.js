@@ -37,8 +37,15 @@
 // Phases are always exactly 3, matching the conventional protocol structure.
 // Empty phases (no products) are valid — represents "no organic option for this stage."
 
+// Schema notes (v2 — bilingual prose fields):
+//   - name, applicationNotes, notes  →  { en: '', zh: '' }  (paired bilingual strings)
+//   - dosage, phi, certification     →  ''                  (single universal string)
+//
+// Old (v1) entries with plain-string `name` / `applicationNotes` / `notes` are
+// auto-migrated to { en: <old value>, zh: '' } on load.
+
 const STORAGE_PREFIX = 'agripro_organic:';
-const INDEX_KEY = 'agripro_organic_index';  // tracks which pestIds have data
+const INDEX_KEY = 'agripro_organic_index';
 
 /**
  * Create an empty protocol skeleton.
@@ -47,7 +54,7 @@ export function emptyProtocol(pestId) {
   return {
     pestId,
     updatedAt: 0,
-    notes: '',
+    notes: { en: '', zh: '' },
     phases: [
       { products: [], adjuvant: null },
       { products: [], adjuvant: null },
@@ -58,9 +65,9 @@ export function emptyProtocol(pestId) {
 
 export function emptyProduct() {
   return {
-    name: '',
+    name: { en: '', zh: '' },
     dosage: '',
-    applicationNotes: '',
+    applicationNotes: { en: '', zh: '' },
     phi: '',
     certification: '',
   };
@@ -68,23 +75,63 @@ export function emptyProduct() {
 
 export function emptyAdjuvant() {
   return {
-    name: '',
+    name: { en: '', zh: '' },
     dosage: '',
-    applicationNotes: '',
+    applicationNotes: { en: '', zh: '' },
   };
 }
 
 /**
+ * Migrate a v1 string field to v2 bilingual { en, zh } shape.
+ * If already in v2 shape, returns it unchanged.
+ */
+function toBilingual(field) {
+  if (field == null) return { en: '', zh: '' };
+  if (typeof field === 'string') return { en: field, zh: '' };
+  if (typeof field === 'object' && ('en' in field || 'zh' in field)) {
+    return { en: field.en || '', zh: field.zh || '' };
+  }
+  return { en: '', zh: '' };
+}
+
+/**
+ * Migrate a v1 protocol (plain-string prose fields) to v2 (bilingual).
+ * Idempotent — calling on a v2 protocol is a no-op except for normalising shape.
+ */
+function migrateProtocol(p) {
+  if (!p) return p;
+  p.notes = toBilingual(p.notes);
+  if (Array.isArray(p.phases)) {
+    p.phases = p.phases.map(phase => ({
+      products: (phase.products || []).map(prod => ({
+        ...prod,
+        name: toBilingual(prod.name),
+        applicationNotes: toBilingual(prod.applicationNotes),
+        dosage: prod.dosage || '',
+        phi: prod.phi || '',
+        certification: prod.certification || '',
+      })),
+      adjuvant: phase.adjuvant ? {
+        name: toBilingual(phase.adjuvant.name),
+        applicationNotes: toBilingual(phase.adjuvant.applicationNotes),
+        dosage: phase.adjuvant.dosage || '',
+      } : null,
+    }));
+  }
+  return p;
+}
+
+/**
  * Load a protocol for a given pest. Returns null if none exists.
+ * Auto-migrates v1 (string-only) data to v2 (bilingual) shape on load.
  */
 export function loadProtocol(pestId) {
   try {
     const raw = localStorage.getItem(STORAGE_PREFIX + pestId);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    // Sanity check
     if (!parsed?.phases || !Array.isArray(parsed.phases)) return null;
-    return parsed;
+    return migrateProtocol(parsed);
   } catch (e) {
     return null;
   }
@@ -125,10 +172,13 @@ export function deleteProtocol(pestId) {
  */
 export function isProtocolFilled(protocol) {
   if (!protocol?.phases) return false;
-  return protocol.phases.some(phase =>
-    (phase.products && phase.products.length > 0) ||
-    (phase.adjuvant && phase.adjuvant.name)
-  );
+  return protocol.phases.some(phase => {
+    if (phase.products && phase.products.length > 0) return true;
+    const adjName = phase.adjuvant?.name;
+    if (!adjName) return false;
+    if (typeof adjName === 'string') return adjName.length > 0;
+    return (adjName.en && adjName.en.length > 0) || (adjName.zh && adjName.zh.length > 0);
+  });
 }
 
 /**
