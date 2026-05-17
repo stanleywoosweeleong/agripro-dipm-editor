@@ -140,13 +140,6 @@ const SeverityDots = ({ rating }) => {
           className={`w-4 h-4 transition-colors ${dot <= rating ? (rating >= 4 ? 'text-red-500 fill-red-500' : 'text-amber-500 fill-amber-500') : 'text-slate-200 fill-slate-200'}`} 
         />
       ))}
-      {editingPest && (
-        <OrganicEditor
-          pest={editingPest}
-          onClose={() => setEditingPest(null)}
-          onSaved={() => setSavedTick(t => t + 1)}
-        />
-      )}
     </div>
   );
 };
@@ -836,13 +829,6 @@ const DT50Guide = () => {
         </table>
       </div>
       
-      {editingPest && (
-        <OrganicEditor
-          pest={editingPest}
-          onClose={() => setEditingPest(null)}
-          onSaved={() => setSavedTick(t => t + 1)}
-        />
-      )}
     </div>
   );
 };
@@ -2084,6 +2070,7 @@ export default function ZhApp() {
         )}
 
       </main>
+
       {editingPest && (
         <OrganicEditor
           pest={editingPest}
