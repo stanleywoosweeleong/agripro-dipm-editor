@@ -1390,9 +1390,9 @@ export default function ZhApp() {
                   <Icon name="alert" className="w-8 h-8 text-amber-500" />
                   <h3 className="font-extrabold text-2xl text-slate-900">分级防御行动计划</h3>
                 </div>
-                <div className="p-8 space-y-6">
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.sapSuckers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.sapSuckers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.sapSuckers >= 70 ? 'text-red-700' : risks.sapSuckers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>吸汁害虫:</span>
+                <div className="p-4 md:p-8 space-y-6">
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.sapSuckers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.sapSuckers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.sapSuckers >= 70 ? 'text-red-700' : risks.sapSuckers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>吸汁害虫:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.sapSuckers >= 70 ? "爆发警报。在傍晚施用吡虫啉/啶虫脒。检查细枝是否有榴莲盾介壳虫造成的坑洞。" :
                        risks.sapSuckers >= 40 ? "种群数量增长中。施用印楝油(1%)或杀虫皂液。避免施用高氮肥以减少嫩梢的吸引力。" :
@@ -1400,8 +1400,8 @@ export default function ZhApp() {
                     </span>
                   </div>
 
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.borers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.borers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.borers >= 70 ? 'text-red-700' : risks.borers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>蛀干/蛀枝害虫:</span>
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.borers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.borers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.borers >= 70 ? 'text-red-700' : risks.borers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>蛀干/蛀枝害虫:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.borers >= 70 ? "高危警报。立即部署高层树冠太阳能杀虫灯，拦截夜间飞行的蛀虫成蛾。检查树干是否有白蚁泥管或材小蠹虫粪。" :
                        risks.borers >= 40 ? "果实发育期开始。黄昏至午夜开启太阳能杀虫灯（高层），阻止飞蛾产卵。确保低层诱捕灯开启以对付鳃金龟。" :
@@ -1409,8 +1409,8 @@ export default function ZhApp() {
                     </span>
                   </div>
 
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.fungal >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.fungal >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.fungal >= 70 ? 'text-red-700' : risks.fungal >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>真菌病害:</span>
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.fungal >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.fungal >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.fungal >= 70 ? 'text-red-700' : risks.fungal >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>真菌病害:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.fungal >= 70 ? (
                         ['flower-bud', 'matchstick', 'full-bloom', 'early-fruit'].includes(stage) ? 
@@ -1425,8 +1425,8 @@ export default function ZhApp() {
                     </span>
                   </div>
 
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.wildlife >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.wildlife >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.wildlife >= 70 ? 'text-red-700' : risks.wildlife >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>野生动物:</span>
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.wildlife >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.wildlife >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.wildlife >= 70 ? 'text-red-700' : risks.wildlife >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>野生动物:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.wildlife >= 70 ? "高入侵风险。开启周边电围栏。使用锌片包裹树干以阻止果子狸。如果发现蛞蝓，施用防蜗牛颗粒诱饵。" :
                        risks.wildlife >= 40 ? "吸引力增加。清理果园边缘的森林灌木丛。安排护卫犬进行活跃巡逻。" :
@@ -1434,8 +1434,8 @@ export default function ZhApp() {
                     </span>
                   </div>
 
-                  <div className="flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors bg-indigo-50 border-indigo-200 text-indigo-900 mt-2">
-                    <span className="font-black w-40 flex-shrink-0 uppercase tracking-tighter text-indigo-700 flex flex-col gap-1">
+                  <div className="flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors bg-indigo-50 border-indigo-200 text-indigo-900 mt-2">
+                    <span className="font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter text-indigo-700 flex flex-col gap-1">
                       <span className="flex items-center gap-2"><Icon name="dollar-sign" className="w-5 h-5"/> 剂型选择:</span>
                       <span className="text-sm font-bold text-indigo-500">成本控制</span>
                     </span>

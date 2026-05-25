@@ -1344,9 +1344,9 @@ export default function EnApp() {
                   <Icon name="alert" className="w-8 h-8 text-amber-500" />
                   <h3 className="font-extrabold text-2xl text-slate-900">Tiered Action Plan (IPM)</h3>
                 </div>
-                <div className="p-8 space-y-6">
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.sapSuckers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.sapSuckers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.sapSuckers >= 70 ? 'text-red-700' : risks.sapSuckers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>SAP SUCKERS:</span>
+                <div className="p-4 md:p-8 space-y-6">
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.sapSuckers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.sapSuckers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.sapSuckers >= 70 ? 'text-red-700' : risks.sapSuckers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>SAP SUCKERS:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.sapSuckers >= 70 ? "Outbreak conditions. Apply Imidacloprid/Acetamiprid late afternoon. Check twigs for Pit Scale craters." :
                        risks.sapSuckers >= 40 ? "Population growing. Apply Neem oil (1%) or insecticidal soap. Avoid applying high Nitrogen to reduce tender flush." :
@@ -1354,8 +1354,8 @@ export default function EnApp() {
                     </span>
                   </div>
 
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.borers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.borers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.borers >= 70 ? 'text-red-700' : risks.borers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>BORERS/WOOD:</span>
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.borers >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.borers >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.borers >= 70 ? 'text-red-700' : risks.borers >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>BORERS/WOOD:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.borers >= 70 ? "Critical risk. Deploy High-Canopy Solar Light Traps immediately to intercept night-flying borer moths. Check trunks for termite mud tubes or ambrosia beetle frass." :
                        risks.borers >= 40 ? "Fruit development starting. Activate Solar Light Traps (High-Canopy) from dusk to midnight to block moth egg-laying. Ensure low-level traps are on for Chafer Beetles." :
@@ -1363,8 +1363,8 @@ export default function EnApp() {
                     </span>
                   </div>
 
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.fungal >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.fungal >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.fungal >= 70 ? 'text-red-700' : risks.fungal >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>FUNGAL:</span>
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.fungal >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.fungal >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.fungal >= 70 ? 'text-red-700' : risks.fungal >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>FUNGAL:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.fungal >= 70 ? (
                         ['flower-bud', 'matchstick', 'full-bloom', 'early-fruit'].includes(stage) ? 
@@ -1379,8 +1379,8 @@ export default function EnApp() {
                     </span>
                   </div>
 
-                  <div className={`flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors ${risks.wildlife >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.wildlife >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <span className={`font-black w-40 flex-shrink-0 uppercase tracking-tighter ${risks.wildlife >= 70 ? 'text-red-700' : risks.wildlife >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>WILDLIFE:</span>
+                  <div className={`flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors ${risks.wildlife >= 70 ? 'bg-red-50 border-red-200 text-red-900' : risks.wildlife >= 40 ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <span className={`font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter ${risks.wildlife >= 70 ? 'text-red-700' : risks.wildlife >= 40 ? 'text-amber-700' : 'text-emerald-700'}`}>WILDLIFE:</span>
                     <span className="leading-relaxed font-semibold">
                       {risks.wildlife >= 70 ? "High intrusion risk. Energize perimeter fences. Use zinc wraps to stop Civets. Apply slug pellets if Slugs spotted." :
                        risks.wildlife >= 40 ? "Attraction increasing. Clear forest brush near orchard edges. Guard dogs on active patrol." :
@@ -1388,8 +1388,8 @@ export default function EnApp() {
                     </span>
                   </div>
 
-                  <div className="flex gap-5 text-xl p-5 rounded-xl border-2 transition-colors bg-indigo-50 border-indigo-200 text-indigo-900 mt-2">
-                    <span className="font-black w-40 flex-shrink-0 uppercase tracking-tighter text-indigo-700 flex flex-col gap-1">
+                  <div className="flex flex-col md:flex-row gap-2 md:gap-5 text-base md:text-xl p-4 md:p-5 rounded-xl border-2 transition-colors bg-indigo-50 border-indigo-200 text-indigo-900 mt-2">
+                    <span className="font-black w-full md:w-40 flex-shrink-0 uppercase tracking-tighter text-indigo-700 flex flex-col gap-1">
                       <span className="flex items-center gap-2"><Icon name="dollar-sign" className="w-5 h-5"/> FORMULATION:</span>
                       <span className="text-sm font-bold text-indigo-500">Cost Control</span>
                     </span>
