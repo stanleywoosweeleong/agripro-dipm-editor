@@ -1199,7 +1199,7 @@ export default function ZhApp() {
         </button>
       )}
 
-<header className="bg-purple-900 text-white shadow-md sticky top-0 z-40">
+<header className="safe-top bg-purple-900 text-white shadow-md sticky top-0 z-40">
         <div className="max-w-[90rem] mx-auto px-4 py-4 flex flex-row justify-between items-center gap-4">
           
           <div className="flex items-center gap-2 md:gap-3 min-w-0">
@@ -1246,6 +1246,16 @@ export default function ZhApp() {
         {/* --- TAB 1: RISK ENGINE --- */}
         {activeTab === 'simulator' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-in fade-in duration-300">
+            <div className="lg:col-span-12">
+              <div className="bg-amber-50 border-2 border-amber-300 rounded-xl p-4 flex items-start gap-3">
+                <Icon name="alert" className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+                <p className="text-sm md:text-base text-amber-900 leading-relaxed">
+                  <span className="font-bold">仅供参考估算 — 非经验证的专业建议。</span>
+                  此风险百分比是基于一般农艺假设的规划参考，尚未经过田间试验或认证农艺师的验证。
+                  在做出任何防治决定之前，请务必结合您自己的果园观察和专业意见加以确认。
+                </p>
+              </div>
+            </div>
             <div className="lg:col-span-4 space-y-6">
               <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
                 <div className="bg-slate-100 p-6 border-b border-slate-200 flex items-center gap-3">
@@ -1275,11 +1285,11 @@ export default function ZhApp() {
                   </div>
 
                   <div className="space-y-4 border-t border-slate-200 pt-6">
-                    <div className="flex justify-between items-center">
-                      <label className="text-xl font-bold text-slate-800 flex items-center gap-3"><Icon name="activity" className="w-6 h-6 text-blue-600"/> 施氮量 (公斤/树)</label>
-                      <div className="flex items-center gap-4">
-                        <button onClick={() => setShowNCalc(!showNCalc)} className="text-sm font-bold text-blue-600 hover:text-blue-800 underline flex items-center gap-1">
-                          <Icon name="calculator" className="w-4 h-4" /> 计算器
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xl font-bold text-slate-800 flex items-center gap-3"><Icon name="activity" className="w-6 h-6 text-blue-600 flex-shrink-0"/> 施氮量 (公斤/树)</label>
+                      <div className="flex items-center justify-between gap-4">
+                        <button onClick={() => setShowNCalc(!showNCalc)} className="text-sm font-bold text-blue-600 hover:text-blue-800 underline flex items-center gap-1 whitespace-nowrap">
+                          <Icon name="calculator" className="w-4 h-4 flex-shrink-0" /> 计算器
                         </button>
                         <span className="text-blue-700 font-extrabold bg-blue-100 px-3 py-1 rounded-lg text-xl">{nitrogen.toFixed(2)}</span>
                       </div>
@@ -1289,7 +1299,7 @@ export default function ZhApp() {
                     {showNCalc && (
                       <div className="bg-blue-50/50 p-6 rounded-2xl border-2 border-blue-200 mt-4 animate-in fade-in zoom-in-95">
                          <h4 className="font-extrabold text-blue-900 flex items-center gap-2 mb-4 text-lg"><Icon name="calculator" className="w-6 h-6"/> 氮元素含量计算器</h4>
-                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                         <div className="grid grid-cols-1 gap-4">
                             <div>
                               <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">氮含量 (%)</label>
                               <input type="number" value={calcNPercent} onChange={e=>setCalcNPercent(e.target.value === '' ? '' : Number(e.target.value))} onFocus={(e) => e.target.select()} className="w-full p-4 rounded-xl border-2 border-slate-300 mt-2 text-xl font-bold text-slate-800 focus:border-blue-500 outline-none" />
@@ -1303,12 +1313,12 @@ export default function ZhApp() {
                               <input type="number" value={calcTreesPerBag} onChange={e=>setCalcTreesPerBag(e.target.value === '' ? '' : Number(e.target.value))} onFocus={(e) => e.target.select()} className="w-full p-4 rounded-xl border-2 border-slate-300 mt-2 text-xl font-bold text-slate-800 focus:border-blue-500 outline-none" />
                             </div>
                          </div>
-                         <div className="flex flex-col md:flex-row justify-between items-center bg-blue-100 p-5 rounded-xl mt-6 border border-blue-200 gap-4">
+                         <div className="flex flex-col bg-blue-100 p-5 rounded-xl mt-6 border border-blue-200 gap-4">
                            <div>
                              <span className="block text-sm text-blue-800 font-bold uppercase tracking-wider">单包总氮量: {(Number(calcNPercent||0)/100 * Number(calcBagWeight||0)).toFixed(2)} 公斤</span>
-                             <span className="block text-2xl font-black text-blue-950 mt-1">单株纯氮量: {calculatedNPerTree.toFixed(2)} 公斤</span>
+                             <span className="block text-lg md:text-2xl font-black text-blue-950 mt-1">单株纯氮量: {calculatedNPerTree.toFixed(2)} 公斤</span>
                            </div>
-                           <button onClick={() => { setNitrogen(parseFloat(calculatedNPerTree.toFixed(2))); setShowNCalc(false); }} className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-lg rounded-xl transition-colors shadow-md">应用至滑块</button>
+                           <button onClick={() => { setNitrogen(parseFloat(calculatedNPerTree.toFixed(2))); setShowNCalc(false); }} className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-lg rounded-xl transition-colors shadow-md">应用至滑块</button>
                          </div>
                       </div>
                     )}
@@ -1316,13 +1326,19 @@ export default function ZhApp() {
 
                   <div className="space-y-4 border-t border-slate-200 pt-6">
                     <label className="text-xl font-bold text-slate-800 flex items-center gap-3"><Icon name="rain" className="w-6 h-6 text-cyan-600"/> 天气模式</label>
-                    <div className="grid grid-cols-2 gap-4">
-                      <select value={rain} onChange={(e) => setRain(e.target.value)} className="p-4 border-2 border-slate-300 rounded-xl text-xl bg-slate-50">
-                        <option value="low">旱季</option>
-                        <option value="moderate">阵雨/间歇性</option>
-                        <option value="high">季风 / 雨季</option>
-                      </select>
-                      <input type="number" placeholder="连续晴天数" value={dryDays} onChange={(e) => setDryDays(e.target.value === '' ? '' : Number(e.target.value))} onFocus={(e) => e.target.select()} className="p-4 border-2 border-slate-300 rounded-xl text-xl bg-slate-50" title="连续晴天数" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">降雨季节</label>
+                        <select value={rain} onChange={(e) => setRain(e.target.value)} className="w-full p-4 border-2 border-slate-300 rounded-xl text-xl bg-slate-50">
+                          <option value="low">旱季</option>
+                          <option value="moderate">阵雨/间歇性</option>
+                          <option value="high">季风 / 雨季</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">连续晴天数</label>
+                        <input type="number" placeholder="例如 3" value={dryDays} onChange={(e) => setDryDays(e.target.value === '' ? '' : Number(e.target.value))} onFocus={(e) => e.target.select()} className="w-full p-4 border-2 border-slate-300 rounded-xl text-xl bg-slate-50" title="连续没有下雨的天数" />
+                      </div>
                     </div>
                     <div className="pt-4">
                        <label className="text-lg font-semibold text-slate-600 flex justify-between mb-3">环境湿度 <span>{humidity}%</span></label>
@@ -1331,9 +1347,9 @@ export default function ZhApp() {
                   </div>
 
                   <div className="space-y-4 border-t border-slate-200 pt-6">
-                    <label className="flex items-center gap-4 p-5 bg-amber-50 border-2 border-amber-200 rounded-xl cursor-pointer hover:bg-amber-100 transition-colors">
-                      <input type="checkbox" checked={nearForest} onChange={(e) => setNearForest(e.target.checked)} className="w-6 h-6 accent-amber-600"/>
-                      <span className="text-xl font-bold text-amber-900 flex items-center gap-3"><Icon name="leaf" className="w-6 h-6"/> 果园靠近原始森林或丛林</span>
+                    <label className="flex items-center gap-3 p-4 sm:p-5 bg-amber-50 border-2 border-amber-200 rounded-xl cursor-pointer hover:bg-amber-100 transition-colors">
+                      <input type="checkbox" checked={nearForest} onChange={(e) => setNearForest(e.target.checked)} className="w-6 h-6 flex-shrink-0 accent-amber-600"/>
+                      <span className="text-base sm:text-xl font-bold text-amber-900 flex items-center gap-2"><Icon name="leaf" className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0"/> 果园靠近原始森林或丛林</span>
                     </label>
                   </div>
                 </div>

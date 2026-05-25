@@ -11,11 +11,15 @@
     min-height: 100dvh;
   }
   body {
-    padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+  /* Sticky headers must clear the iOS status bar / notch themselves —
+     body padding does not affect position:sticky elements. */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
   }
   /* Disable iOS auto-zoom on input focus by ensuring 16px minimum */
   input,
