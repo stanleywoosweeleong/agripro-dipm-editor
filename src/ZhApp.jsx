@@ -91,9 +91,9 @@ const getMobilityTag = (code) => {
 // --- 3-PHASE IPM PARSER ---
 const getPhaseInfo = (phase, category) => {
   if (category === 'Fungi/Pathogens') {
-      if (phase === 1) return { step: '阶段一', title: '快速灭除 (Eradicant)', desc: '爆发期。瞬间烧毁活跃的真菌病斑，阻止孢子扩散。', color: 'red' };
-      if (phase === 2) return { step: '阶段二', title: '内吸防护 (Systemic)', desc: '巩固期。吸收到维管组织中，保护新梢免受内部感染蔓延。', color: 'amber' };
-      if (phase === 3) return { step: '阶段三', title: '保护剂 (Protectant)', desc: '维护期。用接触性屏障或竞争性生物制剂覆盖叶面。', color: 'emerald' };
+      if (phase === 1) return { step: '阶段一', title: '快速灭除', desc: '爆发期。瞬间烧毁活跃的真菌病斑，阻止孢子扩散。', color: 'red' };
+      if (phase === 2) return { step: '阶段二', title: '内吸防护', desc: '巩固期。吸收到维管组织中，保护新梢免受内部感染蔓延。', color: 'amber' };
+      if (phase === 3) return { step: '阶段三', title: '保护剂', desc: '维护期。用接触性屏障或竞争性生物制剂覆盖叶面。', color: 'emerald' };
   }
   // Default Insects/Mites/Others
   if (phase === 1) return { step: '阶段一', title: '快速击倒', desc: '红色警报。快速消灭活跃成虫/虫群 (短 LT₅₀)。', color: 'red' };
@@ -315,7 +315,7 @@ const TankMixGuide = () => (
               绝对不要在同一个喷药桶中混合超过 <strong>3 种有效成分</strong>。
             </p>
             <p className="text-lg font-medium mt-3 opacity-95 leading-relaxed">
-              混合过多种类的化学物质会造成"鸡尾酒灾难"。您将面临<strong>药害 (Phytotoxicity)</strong>(烧毁整个树冠)或<strong>化学中和</strong>的风险。如果化学物质相互抵消，您等于<strong>白白浪费了 40-60% 的成本</strong>，同时可能用未溶解的污泥堵塞喷嘴。
+              混合过多种类的化学物质会造成"鸡尾酒灾难"。您将面临<strong>药害</strong>(烧毁整个树冠)或<strong>化学中和</strong>的风险。如果化学物质相互抵消，您等于<strong>白白浪费了 40-60% 的成本</strong>，同时可能用未溶解的污泥堵塞喷嘴。
             </p>
           </div>
         </div>
@@ -1880,11 +1880,11 @@ export default function ZhApp() {
                     {!isGrid && (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-6 border-b-2 border-slate-100 mt-4">
                          <div>
-                           <span className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">科名 (Family)</span>
+                           <span className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">科名</span>
                            <span className="font-extrabold text-slate-800 text-lg">{pest.family}</span>
                          </div>
                          <div>
-                           <span className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">属名 (Genus)</span>
+                           <span className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">属名</span>
                            <span className="font-extrabold text-slate-800 text-lg italic">{pest.genus}</span>
                          </div>
                          <div>
